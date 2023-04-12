@@ -57,6 +57,11 @@ main .columns > div > div.columns-contains-image {
   }
 }
 
+main .columns .icon {
+  margin: 0 auto;
+  width: 70%;
+}
+
 main .columns h2 {
   margin-top: 0;
   text-transform: uppercase;

@@ -2,11 +2,12 @@ import {
   readBlockConfig,
   fetchPlaceholders,
   decorateIcons,
-  lookupPages,
   createOptimizedPicture,
   wrapImgsInLinks,
   decorateLinkedPictures,
 } from '../../scripts/scripts.js';
+
+import { setupSponsors } from '../sponsors/sponsors.js';
 
 /**
  * collapses all open nav sections
@@ -26,8 +27,19 @@ function displayNextPartner(proud) {
 }
 
 async function setupPartners(section) {
-  const pages = await lookupPages();
-  const sponsors = pages.filter((e) => e.path.startsWith('/sponsors/'));
+  let sponsorLinks = [];
+  try {
+    const resp = await fetch('/sponsors');
+    // eslint-disable-next-line no-await-in-loop
+    const html = await resp.text();
+    const dp = new DOMParser();
+    const sponsorsDoc = dp.parseFromString(html, 'text/html');
+    sponsorLinks = [...sponsorsDoc.querySelectorAll('.sponsors a')].map((a) => a.href);
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.log(err);
+  }
+  const sponsors = await setupSponsors(sponsorLinks);
 
   if (sponsors.length > 0) {
     const hasWhiteBg = [...section.classList].includes('white');
