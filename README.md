@@ -3,6 +3,7 @@
 ## Environments
 - Preview: https://main--pga-charles-schwab-cup-championship--hlxsites.hlx.page/
 - Live: https://main--pga-charles-schwab-cup-championship--hlxsites.hlx.live/
+- Production: https://www.charlesschwabcupchampionship.com
 
 ## Installation
 
