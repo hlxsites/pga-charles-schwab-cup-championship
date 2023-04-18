@@ -153,7 +153,7 @@ footer .footer .footer-links li {
 @media (min-width: 900px) {
   footer .footer .footer-links {
     display: grid;
-    grid-template-columns: 60px 1fr 130px;
+    grid-template-columns: 130px 1fr 130px;
     align-items: center;
     gap: 0 10px;
     font-size: var(--body-font-size-xs);
