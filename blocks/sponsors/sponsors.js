@@ -5,6 +5,26 @@ import {
   toClassName,
 } from '../../scripts/scripts.js';
 
+export async function setupSponsorsV2(sponsorRows = []) {
+  const sponsors = [];
+  sponsorRows.forEach((sponsorRow) => {
+    const link = sponsorRow.querySelector('a');
+    const images = sponsorRow.querySelectorAll('picture');
+    const headline = sponsorRow.querySelector('h1');
+    const description = sponsorRow.querySelector('h1 + p');
+
+    sponsors.push({
+      title: headline.textContent,
+      image: images[0].querySelector('img').src,
+      logoWhite: images[1].querySelector('img').src,
+      description: description.textContent,
+      link: link.href,
+    });
+  });
+
+  return sponsors;
+}
+
 export async function setupSponsors(sponsorLinks = []) {
   let sponsors = [];
   let orderedSponsors = [];
@@ -51,11 +71,19 @@ export async function setupSponsors(sponsorLinks = []) {
 }
 
 export default async function decorate(block) {
-  const sponsorLinks = [...block.querySelectorAll('a')].map((a) => a.href);
-  const sponsors = await setupSponsors(sponsorLinks);
+  let sponsors;
+  if (block.classList.contains('v2')) {
+    // use new content model
+    const sponsorRows = [...block.children];
+    sponsors = await setupSponsorsV2(sponsorRows);
+  } else {
+    // backwards compatability, can be killed off after this is merged and content is updated
+    const sponsorLinks = [...block.querySelectorAll('a')].map((a) => a.href);
+    sponsors = await setupSponsors(sponsorLinks);
+  }
+
   block.textContent = '';
 
-  // combine ordered sponsors with any remaining unordered sponsors
   sponsors.forEach((sponsor) => {
     const card = document.createElement('div');
     card.className = 'sponsors-sponsor';
@@ -66,8 +94,8 @@ export default async function decorate(block) {
     const back = document.createElement('div');
     back.className = `sponsors-sponsor-back sponsor-${toClassName(sponsor.title)}`;
     back.innerHTML = `<h2>${sponsor.title}</h2>
-      <p>${sponsor.description}</p>
-      <p class="button-container"><a class="button" href="${sponsor.link}">${sponsor.title.replace(' ', '')}.com</a></p>`;
+        <p>${sponsor.description}</p>
+        <p class="button-container"><a class="button" href="${sponsor.link}">${sponsor.title.replace(' ', '')}.com</a></p>`;
     wrapper.append(front, back);
     card.append(wrapper);
     block.append(card);

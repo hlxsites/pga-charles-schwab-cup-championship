@@ -108,7 +108,7 @@ footer .footer .footer-partners img {
 }
 
 /* nav */
-footer .footer .footer-nav {
+footer .footer .footer-partners + .footer-nav {
   border-top: 1px solid var(--footer-border-color);
 }
 
@@ -232,8 +232,10 @@ footer .footer .footer-copyright {
   }
 }
 
-footer .footer #ot-sdk-btn.ot-sdk-show-settings, footer .footer #ot-sdk-btn.optanon-show-settings,
-footer .footer #ot-sdk-btn.ot-sdk-show-settings:hover, footer .footer #ot-sdk-btn.optanon-show-settings:hover {
+footer .footer #ot-sdk-btn.ot-sdk-show-settings,
+footer .footer #ot-sdk-btn.optanon-show-settings,
+footer .footer #ot-sdk-btn.ot-sdk-show-settings:hover,
+footer .footer #ot-sdk-btn.optanon-show-settings:hover {
   color: var(--footer-text-color);
   text-transform: uppercase;
   cursor: pointer;
