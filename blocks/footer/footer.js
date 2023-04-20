@@ -4,6 +4,7 @@ import {
   decorateLinkedPictures,
   createOptimizedPicture,
   wrapImgsInLinks,
+  fetchPlaceholders,
 } from '../../scripts/scripts.js';
 
 import { setupSponsors, setupSponsorsV2 } from '../sponsors/sponsors.js';
@@ -25,40 +26,42 @@ function setupSocialButtons(section) {
   });
 }
 
-async function setupPartners(section) {
+async function setupPartners(section, ph) {
   let sponsors = [];
-  try {
-    // const resp = await fetch('/drafts/shsteimer/sponsors');
-    const resp = await fetch('/sponsors');
-    // eslint-disable-next-line no-await-in-loop
-    const html = await resp.text();
-    const dp = new DOMParser();
-    const sponsorsDoc = dp.parseFromString(html, 'text/html');
-    if (sponsorsDoc.querySelector('.sponsors.v2')) {
-      const sponsorRows = [...sponsorsDoc.querySelector('.sponsors.v2').children];
-      sponsors = await setupSponsorsV2(sponsorRows);
-    } else {
-      // backwards compat, kill off after marge and content update
-      const sponsorLinks = [...sponsorsDoc.querySelectorAll('.sponsors a')].map((a) => a.href);
-      sponsors = await setupSponsors(sponsorLinks);
+  const sponsorsNavPath = ph.sponsorsNav;
+  if (sponsorsNavPath) {
+    try {
+      const resp = await fetch(sponsorsNavPath);
+      // eslint-disable-next-line no-await-in-loop
+      const html = await resp.text();
+      const dp = new DOMParser();
+      const sponsorsDoc = dp.parseFromString(html, 'text/html');
+      if (sponsorsDoc.querySelector('.sponsors.v2')) {
+        const sponsorRows = [...sponsorsDoc.querySelector('.sponsors.v2').children];
+        sponsors = await setupSponsorsV2(sponsorRows);
+      } else {
+        // backwards compat, kill off after marge and content update
+        const sponsorLinks = [...sponsorsDoc.querySelectorAll('.sponsors a')].map((a) => a.href);
+        sponsors = await setupSponsors(sponsorLinks);
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log(err);
     }
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.log(err);
-  }
 
-  const wrapper = document.createElement('div');
-  // combine ordered sponsors with any remaining unordered sponsors
-  sponsors.forEach((sponsor) => {
-    const partner = document.createElement('div');
-    partner.className = 'footer-partner';
-    const link = document.createElement('a');
-    link.href = sponsor.link;
-    link.append(createOptimizedPicture(sponsor.image, sponsor.title, false, [{ width: '300' }]));
-    partner.append(link);
-    wrapper.append(partner);
-  });
-  section.append(wrapper);
+    const wrapper = document.createElement('div');
+    // combine ordered sponsors with any remaining unordered sponsors
+    sponsors.forEach((sponsor) => {
+      const partner = document.createElement('div');
+      partner.className = 'footer-partner';
+      const link = document.createElement('a');
+      link.href = sponsor.link;
+      link.append(createOptimizedPicture(sponsor.image, sponsor.title, false, [{ width: '300' }]));
+      partner.append(link);
+      wrapper.append(partner);
+    });
+    section.append(wrapper);
+  }
 }
 
 /**
@@ -119,7 +122,8 @@ export default async function decorate(block) {
     decorateLinkedPictures(block);
 
     if (hasPartners) {
-      await setupPartners(ribbon.querySelector('.footer-partners'));
+      const placeholders = await fetchPlaceholders();
+      await setupPartners(ribbon.querySelector('.footer-partners'), placeholders);
     }
   }
 }
