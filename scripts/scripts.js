@@ -947,6 +947,29 @@ export async function fetchGraphQL(query, variables) {
 }
 
 /**
+ * injects and decorates buttons for fevo offers.
+ * @param {Element} main the container element for the buttons.
+ */
+function decorateFevoButtons(main) {
+  const fevoButtons = main.querySelectorAll('a[href*="fevogm.com"]');
+  if (fevoButtons.length > 0) {
+    fevoButtons.forEach((a) => {
+      const offerCode = new URL(a.href).searchParams.get('offercode');
+      if (offerCode) {
+        a.classList.add('fevo-btn');
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          // this gets loaded in delayed, so checking JIC
+          if (window.GMWidget) {
+            window.GMWidget.open(offerCode);
+          }
+        });
+      }
+    });
+  }
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -959,6 +982,7 @@ export async function decorateMain(main) {
   updateExternalLinks(main);
   // hopefully forward compatible button decoration
   decorateButtons(main);
+  decorateFevoButtons(main);
 
   decorateIcons(main);
   await buildAutoBlocks(main);
