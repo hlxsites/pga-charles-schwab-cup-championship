@@ -23,32 +23,50 @@ function buildDefaultVideo(id, inHero) {
   </div>`;
 }
 
+function loadFranklinVideo(videoHref, block) {
+  block.innerHTML = `<video controls>
+    <source src="${videoHref}" type="video/${videoHref.split('.').pop()}" >
+  </video>`;
+
+  block.setAttribute('data-video-status', 'loaded');
+}
+
+function loadBrightcoveVideo(id, block) {
+  const inHero = [...block.classList].includes('video-hero');
+  const video = buildDefaultVideo(id, inHero);
+  block.innerHTML = video;
+
+  if (inHero) {
+    block.parentNode.classList.add('video-wrapper-hero');
+    // build play button
+    const playButton = document.createElement('div');
+    playButton.classList.add('video-hero-play');
+    playButton.addEventListener('click', displayVideo);
+    block.parentNode.append(playButton);
+    // build close button
+    const closeButton = document.createElement('div');
+    closeButton.classList.add('video-hero-close');
+    closeButton.addEventListener('click', closeVideo);
+    block.prepend(closeButton);
+  }
+
+  block.setAttribute('data-video-status', 'loaded');
+}
+
 function loadVideo(block) {
   const status = block.getAttribute('data-video-status');
   // eslint-disable-next-line no-useless-return
   if (status === 'loaded') return;
 
-  const id = block.textContent.trim();
-  if (id) {
-    const inHero = [...block.classList].includes('video-hero');
-    const video = buildDefaultVideo(id, inHero);
-    block.innerHTML = video;
-
-    if (inHero) {
-      block.parentNode.classList.add('video-wrapper-hero');
-      // build play button
-      const playButton = document.createElement('div');
-      playButton.classList.add('video-hero-play');
-      playButton.addEventListener('click', displayVideo);
-      block.parentNode.append(playButton);
-      // build close button
-      const closeButton = document.createElement('div');
-      closeButton.classList.add('video-hero-close');
-      closeButton.addEventListener('click', closeVideo);
-      block.prepend(closeButton);
+  const videoLink = block.querySelector('a');
+  if (videoLink) {
+    // load video from franklin media
+    loadFranklinVideo(videoLink.href, block);
+  } else {
+    const id = block.textContent.trim();
+    if (id) {
+      loadBrightcoveVideo(id, block);
     }
-
-    block.setAttribute('data-video-status', 'loaded');
   }
 }
 

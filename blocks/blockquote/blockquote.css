@@ -2,10 +2,25 @@ main .blockquote {
   --blockquote-text-color: var(--color-blue);
 }
 
+main .blockquote.bordered {
+  padding: 1.2rem;
+  background-color: var(--highlight-background-color);
+}
+
 main .blockquote blockquote {
   margin-left: 0;
   margin-right: 0;
   font-size: var(--body-font-size-xs);
+}
+
+main .blockquote.bordered blockquote {
+  padding: 2rem;
+  font-size: var(--body-font-size-l);
+  font-weight: bold;
+  border-top: solid var(--color-black) 1px;
+  border-bottom: solid var(--color-black) 1px;
+
+  --blockquote-text-color: var(--color-black);
 }
 
 main .blockquote blockquote q {
@@ -13,8 +28,22 @@ main .blockquote blockquote q {
   color: var(--blockquote-text-color);
 }
 
+main .blockquote.bordered blockquote p {
+  text-align: right;
+  font-size: var(--body-font-size-xs);
+  color:var(--blockquote-text-color);
+}
+
 @media (min-width: 700px) {
   main .blockquote blockquote {
+    font-size: var(--body-font-size-s);
+  }
+
+  main .blockquote.bordered blockquote {
+    font-size: var(--body-font-size-xxl);
+  }
+
+  main .blockquote.bordered blockquote p {
     font-size: var(--body-font-size-s);
   }
 }

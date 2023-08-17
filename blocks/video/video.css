@@ -19,6 +19,11 @@ main .video .video-iframe-wrapper iframe {
   height: 100%;
 }
 
+/* franklin videos, so not bc iframed */
+main .video video {
+  width: 100%;
+}
+
 /* hero video */
 main .video.video-hero {
   display: flex;
@@ -81,7 +86,7 @@ main .video-hero-play::before {
     height: 80px;
     margin-top: 16px;
   }
-  
+
   main .video-hero-play::before {
     margin-left: 5px;
     border-top: 20px solid transparent;
