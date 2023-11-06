@@ -128,6 +128,7 @@ async function getArticles(limit, placeholders) {
       }
   }`, {
       tournamentNum: placeholders.tournamentId,
+      tour: 'S',
       limit,
     });
     if (resp.ok) {
