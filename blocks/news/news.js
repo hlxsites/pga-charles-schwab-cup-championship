@@ -127,8 +127,8 @@ async function getArticles(limit, placeholders) {
           }
       }
   }`, {
+      tour: placeholders.tourCode.toUpperCase(),
       tournamentNum: placeholders.tournamentId,
-      tour: 'S',
       limit,
     });
     if (resp.ok) {
