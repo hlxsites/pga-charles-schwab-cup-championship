@@ -954,13 +954,21 @@ function decorateFevoButtons(main) {
   const fevoButtons = main.querySelectorAll('a[href*="fevogm.com"]');
   if (fevoButtons.length > 0) {
     fevoButtons.forEach((a) => {
-      const offerCode = new URL(a.href).searchParams.get('offercode');
+      const url = new URL(a.href);
+      const offerCode = url.searchParams.get('offercode');
       if (offerCode) {
-        a.classList.add('fevo-btn');
+        const isWeFevo = url.hostname === 'we.fevogm.com';
+        if (isWeFevo) {
+          a.classList.add('we-fevo-btn');
+          a.setAttribute('data-fevo-offer-id', offerCode);
+        } else {
+          a.classList.add('fevo-btn');
+        }
+
         a.addEventListener('click', (e) => {
           e.preventDefault();
-          // this gets loaded in delayed, so checking JIC
-          if (window.GMWidget) {
+          // window.GMWidget is loaded in delayed, so check if it's been loaded
+          if (!isWeFevo && window.GMWidget) {
             window.GMWidget.open(offerCode);
           }
         });
