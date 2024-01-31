@@ -908,7 +908,7 @@ async function buildAutoBlocks(main) {
           main.append(adPlaceholder);
         }
       });
-      if (validPositions) main.append(buildBlock('ads', ''));
+      if (validPositions) main.append(buildBlock('marketing', ''));
     }
 
     const template = getMetadata('template');

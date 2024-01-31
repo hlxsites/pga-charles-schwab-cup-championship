@@ -540,8 +540,8 @@ main .section.two-col > :not(.col-right) {
   }
 }
 
-/* ads */
-main .ads-container, main .ads {
+/* marketing */
+main .marketing-container, main .marketing {
   display: none;
   visibility: hidden;
 }

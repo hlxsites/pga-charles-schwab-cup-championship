@@ -708,10 +708,10 @@ if (otId) {
 
   window.OptanonWrapper = OptanonWrapper;
 
-  if (document.querySelector('.ads')) {
-    const adsBlock = document.querySelector('.ads');
-    decorateBlock(adsBlock);
-    loadBlock(adsBlock);
+  if (document.querySelector('.marketing')) {
+    const marketingBlock = document.querySelector('.marketing');
+    decorateBlock(marketingBlock);
+    loadBlock(marketingBlock);
   }
 }
 
