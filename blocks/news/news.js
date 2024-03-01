@@ -79,8 +79,8 @@ function paginateNews(e) {
 }
 
 async function getVideos(limit, placeholders) {
-  const resp = await fetchGraphQL(`query GetVideos($tournamentId: String, $playerId: String, $playerIds: [String!], $category: String, $franchise: String, $limit: Int, $season: String, $tour: String, $tourCode: TourCode) {
-    videos(tournamentId: $tournamentId, playerId: $playerId, playerIds: $playerIds, category: $category, franchise: $franchise, limit: $limit, season: $season, tour: $tour, tourCode: $tourCode) {
+  const resp = await fetchGraphQL(`query GetVideos($tournamentId: String, $playerId: String, $playerIds: [String!], $category: String, $franchise: String, $limit: Int, $season: String, $tourCode: TourCode) {
+    videos(tournamentId: $tournamentId, playerId: $playerId, playerIds: $playerIds, category: $category, franchise: $franchise, limit: $limit, season: $season, tourCode: $tourCode) {
       title 
       poster 
       pubdate
@@ -90,7 +90,7 @@ async function getVideos(limit, placeholders) {
       shareUrl
     }
   }`, {
-    tour: placeholders.tourCode.toUpperCase(),
+    tourCode: placeholders.tourCode.toUpperCase(),
     tournamentId: placeholders.tournamentId,
     limit,
   });
