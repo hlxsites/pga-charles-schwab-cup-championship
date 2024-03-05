@@ -42,7 +42,14 @@ export default async function decorate(block) {
   window.tude = window.tude || { cmd: [] };
   loadScript('https://www.googletagservices.com/tag/js/gpt.js', () => {
     loadScript(`https://dn0qt3r0xannq.cloudfront.net/${placeholders.adsPath}/prebid-load.js`, () => {
-    // loadScript(`https://web.prebidwrapper.com/${placeholders.adsPath}/prebid-load.js`, () => {
+      let pageName = window.location.pathname.slice(1);
+      if (!pageName) {
+        pageName = 'homepage';
+      } else if (pageName.startsWith('news')) {
+        pageName = 'news';
+      } if (pageName.includes('/')) {
+        pageName = pageName.substring(pageName.lastIndexOf('/') + 1);
+      }
       window.tude.cmd.push(() => {
         window.tude.setDeviceType(getDevice()); // optional
         window.tude.setPageTargeting({ // optional
@@ -50,6 +57,8 @@ export default async function decorate(block) {
           s1: placeholders.adsS1,
           s2: placeholders.adsS2,
           s3: placeholders.adsS3,
+          s4: pageName,
+          pos: 'midcontent',
           m_data: '0',
           m_safety: 'safe',
           m_catagories: 'moat_safe',
@@ -59,7 +68,7 @@ export default async function decorate(block) {
           kuid: '',
           aid: '20767395437692810572475817725693908164',
         });
-        window.tude.setAdUnitPath(`/${placeholders.adsNetwork}/pgat.${getDevice() === 'mobile' ? 'phone' : getDevice()}/pgatour`);
+        window.tude.setAdUnitPath(`/${placeholders.adsNetwork}/pgatour-web/pgatour`);
       });
       window.tude.cmd.push(() => {
         document.querySelectorAll('.ad').forEach((ad) => {
