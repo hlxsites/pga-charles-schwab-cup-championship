@@ -120,12 +120,13 @@ main .table table tbody tr:nth-child(even) {
 
   main .table.stats caption {
     font-size: var(--heading-font-size-l);
+    text-align: center;
   }
 
   main .table.stats tr th:nth-child(2),
   main .table.stats tr td:nth-child(2),
-  main .table.stats tr th:nth-child(5),
-  main .table.stats tr td:nth-child(5) {
+  main .table.stats tr th:nth-child(4),
+  main .table.stats tr td:nth-child(4) {
     display: table-cell;
     visibility: visible;
   }
