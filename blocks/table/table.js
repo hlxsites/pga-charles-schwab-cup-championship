@@ -147,11 +147,15 @@ async function getStatDetails(config) {
 }
 
 export default async function decorate(block) {
+  const date = new Date();
   const table = document.createElement('table');
   const head = document.createElement('thead');
   const body = document.createElement('tbody');
   if (block.className.includes('stats')) {
     const config = readBlockConfig(block);
+    if (config.year === 'current') {
+      config.year = date.getFullYear();
+    }
     block.innerHTML = '';
     if (config['stat-id']) {
       const observer = new IntersectionObserver(async (entries) => {
