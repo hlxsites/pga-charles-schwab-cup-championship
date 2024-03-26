@@ -558,19 +558,7 @@ main .ad .ad-top {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100px;
-}
-
-@media (min-width: 728px) {
-  main .ad .ad-top {
-    height: 90px;
-  }
-}
-
-@media (min-width: 970px) {
-  main .ad .ad-top {
-    height: 250px;
-  }
+  height: 300px;
 }
 
 main .section.teaser .teaser-play {
