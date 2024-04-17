@@ -755,3 +755,27 @@ const hasWeFevo = document.querySelector('a.we-fevo-btn');
 if (hasWeFevo) {
   injectWeFevoScript();
 }
+
+/**
+ * Loads Admiral script
+ */
+function loadAdmiral() {
+  const fetchScript = async () => {
+    try {
+      const response = await fetch(
+        'https://orchestrator-config-uat.pgatour.com/revops/admirial',
+      );
+      const content = await response.text();
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.innerHTML = content;
+      script.id = 'admiral';
+      document.head.appendChild(script);
+    } catch (error) {
+      throw new Error('Error loading Admiral script: ', error);
+    }
+  };
+  fetchScript();
+}
+
+loadAdmiral();
