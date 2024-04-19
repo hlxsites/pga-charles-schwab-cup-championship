@@ -82,10 +82,19 @@ export default async function decorate(block) {
             }
           } else {
             window.tude.setFeatureFlags({ injectAds: false });
-            window.tude.refreshAdsViaDivMappings([{
+            const adTest = new URLSearchParams(window.location.search).get('ad_test');
+            const adMapping = {
               divId: slot,
               baseDivId: slot,
-            }]);
+            };
+            if (adTest) {
+              adMapping.targeting = {
+                ad_test: adTest,
+              };
+            }
+            window.tude.refreshAdsViaDivMappings([
+              adMapping,
+            ]);
           }
         });
       });
